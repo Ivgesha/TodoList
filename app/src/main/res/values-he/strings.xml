@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TodoList</string>
+    <string name="Welcome">ברוך הבא ל Todo List</string>
+    <string name="Proceed">המשך</string>
+    <string name="About">אודות</string>
+    <string name="title">כותרת</string>
+    <string name="description">תיאור</string>
+    <string name="addNote">הוסף הערה...</string>
+    <string name="priority">עדיפות</string>
+
+</resources>

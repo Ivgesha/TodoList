@@ -47,12 +47,12 @@ private PopulateDbAsyncTask(NoteDatabase db){
 
     @Override
     protected Void doInBackground(Void... voids) {
-    noteDao.insert(new Note("title 1","Description 1","1",R.drawable.ic_default_icon));
-        noteDao.insert(new Note("title 2","Description 2","2",R.drawable.ic_default_icon));
-        noteDao.insert(new Note("title 3","Description 3","3",R.drawable.ic_default_icon));
-        noteDao.insert(new Note("כותרת 4","תיאור 4","4",R.drawable.ic_default_icon));
-        noteDao.insert(new Note("כותברת 5","תיאור 5","5",R.drawable.ic_default_icon));
-        noteDao.insert(new Note("כותרת 6","תיאור 6","6",R.drawable.ic_default_icon));
+//    noteDao.insert(new Note("title 1","Description 1",1,R.drawable.ic_default_icon));
+//        noteDao.insert(new Note("title 2","Description 2",2,R.drawable.ic_default_icon));
+//        noteDao.insert(new Note("title 3","Description 3",3,R.drawable.ic_default_icon));
+//        noteDao.insert(new Note("כותרת 4","תיאור 4",4,R.drawable.ic_default_icon));
+//        noteDao.insert(new Note("כותברת 5","תיאור 5",5,R.drawable.ic_default_icon));
+//        noteDao.insert(new Note("כותרת 6","תיאור 6",6,R.drawable.ic_default_icon));
         return null;
     }
 }

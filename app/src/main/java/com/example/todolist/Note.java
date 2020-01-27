@@ -16,12 +16,14 @@ public class Note {
 
     private String description;
 
-    private String priority;
+    private int priority;
 
     private int icon;      // done or not.
 
 
-    public Note(String title, String description, String priority, int icon) {
+
+
+    public Note(String title, String description, int priority, int icon) {
         this.title = title;
         this.description = description;
         this.priority = priority;
@@ -44,7 +46,7 @@ public class Note {
         return description;
     }
 
-    public String getPriority() {
+    public int getPriority() {
         return priority;
     }
 

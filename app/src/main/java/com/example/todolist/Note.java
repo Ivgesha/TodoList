@@ -20,6 +20,9 @@ public class Note {
 
     private int icon;      // done or not.
 
+    private String phone;
+
+    private String note;
 
 
 
@@ -52,5 +55,13 @@ public class Note {
 
     public int getIcon() {
         return icon;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getNote() {
+        return note;
     }
 }

@@ -1,10 +1,14 @@
 package com.example.todolist;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,16 +21,20 @@ import java.util.List;
 // need to find a solution to the icon problem
 
 
-
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
 
+
     private List<Note> notes = new ArrayList<>();
+    private onItemClickListener itemListener;
+    private onIconClickListener iconListener;
 
     @NonNull
     @Override
     public NoteHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.note_item, parent, false);
         return new NoteHolder(itemView);
+
+
     }
 
     @Override
@@ -36,8 +44,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
         holder.textViewDescription.setText(currentNote.getDescription());
         holder.textViewPriority.setText(String.valueOf(currentNote.getPriority()));
         holder.imageViewIcon.setImageResource(R.drawable.ic_default_icon);
-
-
     }
 
     @Override
@@ -49,6 +55,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
     public void setNotes(List<Note> notes) {
         this.notes = notes;
         notifyDataSetChanged();
+    }
+
+    public Note getNoteAt(int position) {
+        return notes.get(position);
     }
 
     // Holding single NoteItem
@@ -64,6 +74,43 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
             textViewDescription = (TextView) itemView.findViewById(R.id.text_view_description);
             textViewPriority = (TextView) itemView.findViewById(R.id.text_view_priority);
             imageViewIcon = (ImageView) itemView.findViewById(R.id.icon_default_icon);
+
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if (itemListener != null && position != RecyclerView.NO_POSITION) {
+                        itemListener.onItemClick(notes.get(position));
+                    }
+                    else
+                        Log.d("iconClickListener","clicked on icon" );
+
+                }
+            });
+
+
         }
     }
+
+
+    // the onClick note item
+    public interface onItemClickListener {
+        void onItemClick(Note note);
+    }
+
+    public void setOnItemClickListener(onItemClickListener listener) {
+        this.itemListener = listener;
+    }
+
+    // the onClick icon
+    public interface onIconClickListener {
+        void onIconClick();
+    }
+
+    public void setOnIconClickListener(onIconClickListener listener) {
+        this.iconListener = listener;
+    }
+
+
 }

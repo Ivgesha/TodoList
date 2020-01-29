@@ -1,19 +1,20 @@
 package com.example.todolist.view;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.todolist.Note;
@@ -24,16 +25,21 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-import static com.example.todolist.view.AddNoteActivity.EXTRA_DESCRIPTION;
-import static com.example.todolist.view.AddNoteActivity.EXTRA_PRIORITY;
-import static com.example.todolist.view.AddNoteActivity.EXTRA_TITLE;
+import static com.example.todolist.view.AddEditNoteActivity.EXTRA_DESCRIPTION;
+import static com.example.todolist.view.AddEditNoteActivity.EXTRA_NOTE;
+import static com.example.todolist.view.AddEditNoteActivity.EXTRA_PHONE;
+import static com.example.todolist.view.AddEditNoteActivity.EXTRA_PRIORITY;
+import static com.example.todolist.view.AddEditNoteActivity.EXTRA_TITLE;
 
 public class TodoList extends AppCompatActivity {
     public static final int ADD_NOTE_REQUEST = 1;
+    public static final int EDIT_NOTE_REQUEST = 2;
+
 
     Button ProceedButton;
-    FloatingActionButton floatingActionButton;
+    private FloatingActionButton floatingActionButton;
 
+    private ImageButton defaultIconButton;
     private NoteViewModel noteViewModel;
 
     @Override
@@ -41,7 +47,10 @@ public class TodoList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo_list);
 
-        floatingActionButton = findViewById(R.id.button_add_note);
+        defaultIconButton = (ImageButton)findViewById(R.id.icon_default_icon);
+
+
+        floatingActionButton = (FloatingActionButton )findViewById(R.id.button_add_note);
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -64,12 +73,47 @@ public class TodoList extends AppCompatActivity {
             }
         });
 
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                Log.d("onMove","onMoveActivated");
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                noteViewModel.delete(adapter.getNoteAt(viewHolder.getAdapterPosition()));
+                Toast.makeText(TodoList.this, "Note deleted", Toast.LENGTH_SHORT).show();
+            }
+        }).attachToRecyclerView(recyclerView);
+
+        adapter.setOnItemClickListener(new NoteAdapter.onItemClickListener() {
+            @Override
+            public void onItemClick(Note note) {
+                Intent intent = new Intent(TodoList.this, AddEditNoteActivity.class);
+                intent.putExtra(AddEditNoteActivity.EXTRA_ID, note.getId());
+                intent.putExtra(AddEditNoteActivity.EXTRA_TITLE, note.getTitle());
+                intent.putExtra(AddEditNoteActivity.EXTRA_DESCRIPTION, note.getDescription());
+                intent.putExtra(AddEditNoteActivity.EXTRA_PRIORITY, note.getPriority());
+                startActivityForResult(intent,EDIT_NOTE_REQUEST);
+            }
+        });
+
+        adapter.setOnIconClickListener(new NoteAdapter.onIconClickListener() {
+            @Override
+            public void onIconClick() {
+                Log.d("iconClickListener", "clicked on icon 2 ");
+            }
+        });
+
     }
 
 
     // floatingButton click
     public void floatingButtonClicked(View view) {
-        Intent intent = new Intent(this, AddNoteActivity.class);
+        Intent intent = new Intent(this, AddEditNoteActivity.class);
         startActivityForResult(intent, ADD_NOTE_REQUEST);
     }
 
@@ -81,7 +125,8 @@ public class TodoList extends AppCompatActivity {
         String title;
         String description;
         int priority;
-
+        String phone;
+        String noteEdit;
 
 
         if (requestCode == ADD_NOTE_REQUEST && resultCode == RESULT_OK) {
@@ -95,6 +140,8 @@ public class TodoList extends AppCompatActivity {
                 title = extras.getString(EXTRA_TITLE);
                 description = extras.getString(EXTRA_DESCRIPTION);
                 priority = extras.getInt(EXTRA_PRIORITY, 1);
+                phone =  extras.getString(EXTRA_PHONE);
+                noteEdit = extras.getString(EXTRA_NOTE);
 
                 //          icon test               //
                 int icon = R.drawable.ic_default_icon;
@@ -110,4 +157,9 @@ public class TodoList extends AppCompatActivity {
             Toast.makeText(this, "Note canceled", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+
+
+
 }

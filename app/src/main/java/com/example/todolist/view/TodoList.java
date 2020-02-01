@@ -26,6 +26,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 import static com.example.todolist.view.AddEditNoteActivity.EXTRA_DESCRIPTION;
+import static com.example.todolist.view.AddEditNoteActivity.EXTRA_ID;
 import static com.example.todolist.view.AddEditNoteActivity.EXTRA_NOTE;
 import static com.example.todolist.view.AddEditNoteActivity.EXTRA_PHONE;
 import static com.example.todolist.view.AddEditNoteActivity.EXTRA_PRIORITY;
@@ -47,10 +48,10 @@ public class TodoList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo_list);
 
-        defaultIconButton = (ImageButton)findViewById(R.id.icon_default_icon);
+        defaultIconButton = (ImageButton) findViewById(R.id.icon_default_icon);
 
 
-        floatingActionButton = (FloatingActionButton )findViewById(R.id.button_add_note);
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.button_add_note);
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -78,7 +79,7 @@ public class TodoList extends AppCompatActivity {
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                Log.d("onMove","onMoveActivated");
+                Log.d("onMove", "onMoveActivated");
                 return false;
             }
 
@@ -97,7 +98,8 @@ public class TodoList extends AppCompatActivity {
                 intent.putExtra(AddEditNoteActivity.EXTRA_TITLE, note.getTitle());
                 intent.putExtra(AddEditNoteActivity.EXTRA_DESCRIPTION, note.getDescription());
                 intent.putExtra(AddEditNoteActivity.EXTRA_PRIORITY, note.getPriority());
-                startActivityForResult(intent,EDIT_NOTE_REQUEST);
+                Log.d("EXTRA_PRIORITY","prioriy " + note.getPriority());
+                startActivityForResult(intent, EDIT_NOTE_REQUEST);
             }
         });
 
@@ -139,8 +141,10 @@ public class TodoList extends AppCompatActivity {
                 Log.d("titleTest", "got the extras");
                 title = extras.getString(EXTRA_TITLE);
                 description = extras.getString(EXTRA_DESCRIPTION);
-                priority = extras.getInt(EXTRA_PRIORITY, 1);
-                phone =  extras.getString(EXTRA_PHONE);
+//                priority = extras.getInt(EXTRA_PRIORITY, 1);
+                priority = extras.getInt(EXTRA_PRIORITY,1);
+                Log.d("EXTRA_PRIORITY", "Todo list "+priority);
+                phone = extras.getString(EXTRA_PHONE);
                 noteEdit = extras.getString(EXTRA_NOTE);
 
                 //          icon test               //
@@ -152,14 +156,30 @@ public class TodoList extends AppCompatActivity {
                 Toast.makeText(this, "Note added", Toast.LENGTH_SHORT).show();
             }
 
+        } else if (requestCode == EDIT_NOTE_REQUEST && resultCode == RESULT_OK) {
 
-        } else if (requestCode == ADD_NOTE_REQUEST && resultCode == RESULT_CANCELED) {
+            int id = data.getIntExtra(EXTRA_ID, -1);
+            if (id == -1) {
+                Toast.makeText(this, "Note cant be updated", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Bundle extras = data.getExtras();
+            title = extras.getString(EXTRA_TITLE);
+            description = extras.getString(EXTRA_DESCRIPTION);
+            //priority = extras.getInt(EXTRA_PRIORITY, 1);
+            priority = extras.getInt(EXTRA_PRIORITY,0);
+            phone = extras.getString(EXTRA_PHONE);
+            noteEdit = extras.getString(EXTRA_NOTE);
+            int icon = R.drawable.ic_default_icon;
+
+            Note note = new Note(title, description, priority, icon);
+            note.setId(id);
+            noteViewModel.update(note);
+            Toast.makeText(this, "Note Updated", Toast.LENGTH_SHORT).show();
+        } else
             Toast.makeText(this, "Note canceled", Toast.LENGTH_SHORT).show();
-        }
+
     }
-
-
-
 
 
 }

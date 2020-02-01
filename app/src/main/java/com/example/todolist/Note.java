@@ -37,6 +37,14 @@ public class Note {
         this.id = id;
     }
 
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
     public int getId() {
         return id;
     }

@@ -53,9 +53,14 @@ public class AddEditNoteActivity extends AppCompatActivity {
         // the intent that starts the activity
         Intent intent = getIntent();
         if (intent.hasExtra(EXTRA_ID)) {
+            Log.d("EXTRA_ID_TEST", "entered extra id ");
             editTextTitle.setText(intent.getStringExtra(EXTRA_TITLE));
             editTextDescription.setText(intent.getStringExtra(EXTRA_DESCRIPTION));
-            editTextPriority.setText(intent.getStringExtra(EXTRA_PRIORITY));
+            //Log.d("EXTRA_PRIORIT","test 1 "+ intent.getStringExtra(EXTRA_PRIORITY) );
+            //Log.d("EXTRA_PRIORIT","test 2 "+ intent.getIntExtra(EXTRA_PRIORITY,0) );
+            int priorityInt = intent.getIntExtra(EXTRA_PRIORITY, 0);
+            String priorityString = String.valueOf(priorityInt);
+            editTextPriority.setText(priorityString);
             editTextPhone.setText(intent.getStringExtra(EXTRA_PHONE));
             editTextNote.setText(intent.getStringExtra(EXTRA_NOTE));
         }
@@ -69,6 +74,7 @@ public class AddEditNoteActivity extends AppCompatActivity {
         String title = editTextTitle.getText().toString();
         String description = editTextDescription.getText().toString();
         int priority = Integer.parseInt(editTextPriority.getText().toString());
+        Log.d("priority ", "" + priority);
         String phone = editTextPhone.getText().toString();
         String note = editTextNote.getText().toString();
 
@@ -79,18 +85,16 @@ public class AddEditNoteActivity extends AppCompatActivity {
         }
 
         Intent returnedIntent = new Intent();
-        // bundle.putString(EXTRA_TITLE,title);
-        Log.d("titleTest", "the title " + title);
-        // bundle.putString(EXTRA_DESCRIPTION,description);
-        // bundle.putString(EXTRA_PRIORITY, String.valueOf(priority));
-
-
         returnedIntent.putExtra(EXTRA_TITLE, title);
         returnedIntent.putExtra(EXTRA_DESCRIPTION, description);
-        returnedIntent.putExtra(EXTRA_PRIORITY, String.valueOf(priority));
-        returnedIntent.putExtra(EXTRA_PHONE,phone);
-        returnedIntent.putExtra(EXTRA_NOTE,note);
+        returnedIntent.putExtra(EXTRA_PRIORITY, priority);            // passing int
+        returnedIntent.putExtra(EXTRA_PHONE, phone);
+        returnedIntent.putExtra(EXTRA_NOTE, note);
 
+        int id = getIntent().getIntExtra(EXTRA_ID, -1);
+        if (id != -1) {
+            returnedIntent.putExtra(EXTRA_ID, id);
+        }
 
         //returnedIntent.putExtra(EXTRA_TITLE,title);
         //returnedIntent.putExtra(EXTRA_DESCRIPTION,description);

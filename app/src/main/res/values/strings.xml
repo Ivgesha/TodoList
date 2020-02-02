@@ -7,5 +7,8 @@
     <string name="description">Description</string>
     <string name="addNote">Add note... </string>
     <string name="priority">Priority</string>
+    <string name="hello_customer">Hello Customer</string>
+    <string name="hello">Hello</string>
+    <string name="enter_name">Enter name here...</string>
 
 </resources>

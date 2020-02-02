@@ -23,6 +23,19 @@
         android:layout_height="60dp">
     </TextView>
 
+
+    <EditText
+        android:id="@+id/edit_text_enter_name"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:hint="@string/enter_name"
+        android:layout_marginTop="200dp"
+        android:textColorHint="#FFFFFF"
+        android:textColor="#FFFFFF">
+    </EditText>
+
 <Button
     android:id="@+id/ProceedButton"
     android:text="@string/Proceed"
@@ -31,7 +44,7 @@
     android:background="@drawable/button_0"
     android:layout_gravity="center"
     android:gravity="center"
-    android:layout_marginTop="400dp"
+    android:layout_marginTop="200dp"
     android:textColor="#FFFFFF"
     android:onClick="ProceedClicked">
 </Button>

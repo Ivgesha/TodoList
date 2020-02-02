@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.todolist.Note;
@@ -25,6 +26,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
+import static com.example.todolist.MainActivity.EXTRA_NAME;
 import static com.example.todolist.view.AddEditNoteActivity.EXTRA_DESCRIPTION;
 import static com.example.todolist.view.AddEditNoteActivity.EXTRA_ID;
 import static com.example.todolist.view.AddEditNoteActivity.EXTRA_NOTE;
@@ -39,18 +41,18 @@ public class TodoList extends AppCompatActivity {
 
     Button ProceedButton;
     private FloatingActionButton floatingActionButton;
-
     private ImageButton defaultIconButton;
     private NoteViewModel noteViewModel;
+    private Bundle bundle;
+    private TextView textViewHelloTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo_list);
 
+        textViewHelloTitle = findViewById(R.id.hello_title);
         defaultIconButton = (ImageButton) findViewById(R.id.icon_default_icon);
-
-
         floatingActionButton = (FloatingActionButton) findViewById(R.id.button_add_note);
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
@@ -60,6 +62,17 @@ public class TodoList extends AppCompatActivity {
 
         final NoteAdapter adapter = new NoteAdapter();
         recyclerView.setAdapter(adapter);
+
+        bundle = getIntent().getExtras();
+        String passedName = bundle.getString(EXTRA_NAME);
+        if(!passedName.equals("")){
+            textViewHelloTitle.setText(getString(R.string.hello)+ " "+ passedName);
+        }
+        else{
+            textViewHelloTitle.setText(getString(R.string.hello_customer));
+        }
+
+
 
         // we do it for not making many view models
         // and we pass "this" activity for it to destroy the view model of the current activity

@@ -1,17 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_0"
-    tools:context=".view.TodoList">
+    tools:context=".view.TodoList"
+    android:orientation="vertical"
+    >
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:paddingTop="50dp"
+    >
+
+    <TextView
+        android:id="@+id/hello_title"
+        android:textSize="30dp"
+        android:text="@string/hello_customer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textStyle="bold|italic"
+        >
+    </TextView>
+</LinearLayout>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/note_item"/>
+        tools:listitem="@layout/note_item">
+    </androidx.recyclerview.widget.RecyclerView>
+
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -23,7 +54,8 @@
         android:layout_margin="32dp"
         android:scaleType="center"
         app:fabCustomSize="65dp"
-        android:onClick="floatingButtonClicked"
-        />
+        android:onClick="floatingButtonClicked">
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>

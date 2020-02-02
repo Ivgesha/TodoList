@@ -105,10 +105,9 @@ public class AddEditNoteActivity extends AppCompatActivity {
         finish();
     }
 
+    public void noteCanceled(View view) {
+        setResult(Activity.RESULT_CANCELED, null);
+        finish();
+    }
 
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        finish();
-//    }
 }

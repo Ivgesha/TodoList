@@ -8,5 +8,8 @@
     <string name="description">תיאור</string>
     <string name="addNote">הוסף הערה...</string>
     <string name="priority">עדיפות</string>
+    <string name="hello_customer">שלום אורח</string>
+    <string name="hello">שלום</string>
+    <string name="enter_name">הכנס שם כאן...</string>
 
 </resources>

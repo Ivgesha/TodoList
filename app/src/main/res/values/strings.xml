@@ -10,5 +10,7 @@
     <string name="hello_customer">Hello Customer</string>
     <string name="hello">Hello</string>
     <string name="enter_name">Enter name here...</string>
+    <string name="dark_background">Dark background</string>
+    <string name="light_background">Light backround</string>
 
 </resources>

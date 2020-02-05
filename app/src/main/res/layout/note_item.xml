@@ -20,22 +20,22 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
 
-        <ImageButton
+        <ImageView
             android:id="@+id/icon_default_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:background="@drawable/ic_default_icon"
-            android:onClick="onClickDefaultIcon"
+            android:src="@drawable/ic_default_icon"
             android:visibility="visible"
             />
-        <ImageButton
+
+        <ImageView
             android:id="@+id/icon_done"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_done"
+            android:src="@drawable/ic_done"
             android:layout_alignParentStart="true"
-            android:visibility="invisible"
+            android:visibility="gone"
             />
 
 

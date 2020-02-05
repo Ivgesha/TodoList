@@ -1,9 +1,15 @@
 package com.example.todolist.view;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +21,8 @@ import com.example.todolist.R;
 
 // episod 7 13:28
 public class AddEditNoteActivity extends AppCompatActivity {
+
+    public static final int REQUEST_CALL = 1;
 
     public static final String EXTRA_ID = "com.example.todolist.view.EXTRA_ID";
 
@@ -110,4 +118,30 @@ public class AddEditNoteActivity extends AppCompatActivity {
         finish();
     }
 
+    public void onClickCallBtn(View view) {
+
+        String number = editTextPhone.getText().toString().trim();
+        if (number.length() > 0) {
+            if (ContextCompat.checkSelfPermission(AddEditNoteActivity.this, Manifest.permission.CALL_PHONE) !=
+                    PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(AddEditNoteActivity.this,new String[] {Manifest.permission.CALL_PHONE},REQUEST_CALL);
+            } else {// if permission granted
+                String dial = "tel:" + number;
+                startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
+            }
+        } else {
+            Toast.makeText(AddEditNoteActivity.this, "Enter Phone Number", Toast.LENGTH_LONG).show();
+
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == REQUEST_CALL){
+            if (grantResults.length > 0 && grantResults[0] ==PackageManager.PERMISSION_GRANTED){
+                onClickCallBtn(null);
+            }else
+                Toast.makeText(AddEditNoteActivity.this, "Permission DENIED", Toast.LENGTH_LONG).show();
+        }
+    }
 }

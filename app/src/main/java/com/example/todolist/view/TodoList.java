@@ -3,6 +3,7 @@ package com.example.todolist.view;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -10,11 +11,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,18 +49,28 @@ public class TodoList extends AppCompatActivity {
 
     Button ProceedButton;
     private FloatingActionButton floatingActionButton;
-    private ImageButton defaultIconButton;
+    private ImageView defaultIconButton, doneIconButton;
     private NoteViewModel noteViewModel;
     private Bundle bundle;
     private TextView textViewHelloTitle;
+    private ImageButton imageViewMainMenu;
+    private Toolbar toolbar;
+    private LinearLayout todoLinearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo_list);
 
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        todoLinearLayout = findViewById(R.id.todo_linearlayout);
+
+        //imageViewMainMenu = findViewById(R.id.image_button_main_menu);
+
         textViewHelloTitle = findViewById(R.id.hello_title);
-        defaultIconButton = (ImageButton) findViewById(R.id.icon_default_icon);
+
         floatingActionButton = (FloatingActionButton) findViewById(R.id.button_add_note);
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
@@ -65,13 +83,11 @@ public class TodoList extends AppCompatActivity {
 
         bundle = getIntent().getExtras();
         String passedName = bundle.getString(EXTRA_NAME);
-        if(!passedName.equals("")){
-            textViewHelloTitle.setText(getString(R.string.hello)+ " "+ passedName);
-        }
-        else{
+        if (!passedName.equals("")) {
+            textViewHelloTitle.setText(getString(R.string.hello) + " " + passedName);
+        } else {
             textViewHelloTitle.setText(getString(R.string.hello_customer));
         }
-
 
 
         // we do it for not making many view models
@@ -104,6 +120,7 @@ public class TodoList extends AppCompatActivity {
         }).attachToRecyclerView(recyclerView);
 
         adapter.setOnItemClickListener(new NoteAdapter.onItemClickListener() {
+
             @Override
             public void onItemClick(Note note) {
                 Intent intent = new Intent(TodoList.this, AddEditNoteActivity.class);
@@ -111,18 +128,9 @@ public class TodoList extends AppCompatActivity {
                 intent.putExtra(AddEditNoteActivity.EXTRA_TITLE, note.getTitle());
                 intent.putExtra(AddEditNoteActivity.EXTRA_DESCRIPTION, note.getDescription());
                 intent.putExtra(AddEditNoteActivity.EXTRA_PRIORITY, note.getPriority());
-                Log.d("EXTRA_PRIORITY","prioriy " + note.getPriority());
                 startActivityForResult(intent, EDIT_NOTE_REQUEST);
             }
         });
-
-        adapter.setOnIconClickListener(new NoteAdapter.onIconClickListener() {
-            @Override
-            public void onIconClick() {
-                Log.d("iconClickListener", "clicked on icon 2 ");
-            }
-        });
-
     }
 
 
@@ -155,8 +163,8 @@ public class TodoList extends AppCompatActivity {
                 title = extras.getString(EXTRA_TITLE);
                 description = extras.getString(EXTRA_DESCRIPTION);
 //                priority = extras.getInt(EXTRA_PRIORITY, 1);
-                priority = extras.getInt(EXTRA_PRIORITY,1);
-                Log.d("EXTRA_PRIORITY", "Todo list "+priority);
+                priority = extras.getInt(EXTRA_PRIORITY, 1);
+                Log.d("EXTRA_PRIORITY", "Todo list " + priority);
                 phone = extras.getString(EXTRA_PHONE);
                 noteEdit = extras.getString(EXTRA_NOTE);
 
@@ -180,7 +188,7 @@ public class TodoList extends AppCompatActivity {
             title = extras.getString(EXTRA_TITLE);
             description = extras.getString(EXTRA_DESCRIPTION);
             //priority = extras.getInt(EXTRA_PRIORITY, 1);
-            priority = extras.getInt(EXTRA_PRIORITY,0);
+            priority = extras.getInt(EXTRA_PRIORITY, 0);
             phone = extras.getString(EXTRA_PHONE);
             noteEdit = extras.getString(EXTRA_NOTE);
             int icon = R.drawable.ic_default_icon;
@@ -194,5 +202,44 @@ public class TodoList extends AppCompatActivity {
 
     }
 
+    public void onClickDefaultIcon(View view) {
 
+        defaultIconButton = (ImageView) findViewById(R.id.icon_default_icon);
+        doneIconButton = findViewById(R.id.icon_done);
+
+        if (defaultIconButton.getVisibility() == View.VISIBLE) {
+            defaultIconButton.setVisibility(View.GONE);
+            doneIconButton.setVisibility(View.VISIBLE);
+        } else {
+            defaultIconButton.setVisibility(View.VISIBLE);
+            doneIconButton.setVisibility(View.GONE);
+
+        }
+
+
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.backgroundChange_0:
+                // change background
+                todoLinearLayout.setBackgroundResource(R.drawable.background_1);
+                return true;
+            case R.id.backgroundChange_1:
+                todoLinearLayout.setBackgroundResource(R.drawable.background_0);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
 }

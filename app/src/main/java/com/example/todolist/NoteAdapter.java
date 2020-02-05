@@ -25,8 +25,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
 
 
     private List<Note> notes = new ArrayList<>();
-    private onItemClickListener itemListener;
-    private onIconClickListener iconListener;
+    private onItemClickListener itemListener,itemLongListener ;
 
     @NonNull
     @Override
@@ -82,10 +81,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
                     int position = getAdapterPosition();
                     if (itemListener != null && position != RecyclerView.NO_POSITION) {
                         itemListener.onItemClick(notes.get(position));
-                    }
-                    else
-                        Log.d("iconClickListener","clicked on icon" );
-
+                    } else
+                        Log.d("iconClickListener", "clicked on icon");
                 }
             });
 
@@ -102,15 +99,5 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
     public void setOnItemClickListener(onItemClickListener listener) {
         this.itemListener = listener;
     }
-
-    // the onClick icon
-    public interface onIconClickListener {
-        void onIconClick();
-    }
-
-    public void setOnIconClickListener(onIconClickListener listener) {
-        this.iconListener = listener;
-    }
-
 
 }

@@ -128,6 +128,7 @@ public class TodoList extends AppCompatActivity {
                 intent.putExtra(AddEditNoteActivity.EXTRA_TITLE, note.getTitle());
                 intent.putExtra(AddEditNoteActivity.EXTRA_DESCRIPTION, note.getDescription());
                 intent.putExtra(AddEditNoteActivity.EXTRA_PRIORITY, note.getPriority());
+                intent.putExtra(AddEditNoteActivity.EXTRA_PHONE,note.getPhone());
                 startActivityForResult(intent, EDIT_NOTE_REQUEST);
             }
         });
@@ -145,26 +146,18 @@ public class TodoList extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String title;
-        String description;
+        String title,description,phone,noteEdit;
         int priority;
-        String phone;
-        String noteEdit;
-
 
         if (requestCode == ADD_NOTE_REQUEST && resultCode == RESULT_OK) {
-            Log.d("titleTest", "entered to onActivityResult");
             Bundle extras = data.getExtras();
             // checking if we get data from addNoteActivity
             if (extras == null) {
                 Log.d("titleTest", "didnt get the extras");
             } else {
-                Log.d("titleTest", "got the extras");
                 title = extras.getString(EXTRA_TITLE);
                 description = extras.getString(EXTRA_DESCRIPTION);
-//                priority = extras.getInt(EXTRA_PRIORITY, 1);
                 priority = extras.getInt(EXTRA_PRIORITY, 1);
-                Log.d("EXTRA_PRIORITY", "Todo list " + priority);
                 phone = extras.getString(EXTRA_PHONE);
                 noteEdit = extras.getString(EXTRA_NOTE);
 
@@ -172,7 +165,7 @@ public class TodoList extends AppCompatActivity {
                 int icon = R.drawable.ic_default_icon;
                 //          icon test               //
 
-                Note note = new Note(title, description, priority, icon);
+                Note note = new Note(title, description, priority, icon,phone);
                 noteViewModel.insert(note);
                 Toast.makeText(this, "Note added", Toast.LENGTH_SHORT).show();
             }
@@ -193,7 +186,7 @@ public class TodoList extends AppCompatActivity {
             noteEdit = extras.getString(EXTRA_NOTE);
             int icon = R.drawable.ic_default_icon;
 
-            Note note = new Note(title, description, priority, icon);
+            Note note = new Note(title, description, priority, icon,phone);
             note.setId(id);
             noteViewModel.update(note);
             Toast.makeText(this, "Note Updated", Toast.LENGTH_SHORT).show();

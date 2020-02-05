@@ -82,7 +82,6 @@ public class AddEditNoteActivity extends AppCompatActivity {
         String title = editTextTitle.getText().toString();
         String description = editTextDescription.getText().toString();
         int priority = Integer.parseInt(editTextPriority.getText().toString());
-        Log.d("priority ", "" + priority);
         String phone = editTextPhone.getText().toString();
         String note = editTextNote.getText().toString();
 
@@ -103,12 +102,6 @@ public class AddEditNoteActivity extends AppCompatActivity {
         if (id != -1) {
             returnedIntent.putExtra(EXTRA_ID, id);
         }
-
-        //returnedIntent.putExtra(EXTRA_TITLE,title);
-        //returnedIntent.putExtra(EXTRA_DESCRIPTION,description);
-        //returnedIntent.putExtra(EXTRA_PRIORITY,priority);
-
-        Log.d("titleTest", "put extra in addNoteActivity " + title);
         setResult(Activity.RESULT_OK, returnedIntent);
         finish();
     }

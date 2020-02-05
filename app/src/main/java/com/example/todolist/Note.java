@@ -25,12 +25,12 @@ public class Note {
     private String note;
 
 
-
-    public Note(String title, String description, int priority, int icon) {
+    public Note(String title, String description, int priority, int icon, String phone) {
         this.title = title;
         this.description = description;
         this.priority = priority;
         this.icon = icon;
+        this.phone = phone;
     }
 
     public void setId(int id) {

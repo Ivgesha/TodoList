@@ -1,5 +1,6 @@
 package com.example.todolist;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,15 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-// stoped at tutorial number 7 at the beggining 
-// need to find a solution to the icon problem
 
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
 
 
     private List<Note> notes = new ArrayList<>();
-    private onItemClickListener itemListener,itemLongListener ;
+    private onItemClickListener itemListener, itemLongListener;
 
     @NonNull
     @Override
@@ -33,8 +32,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.note_item, parent, false);
         return new NoteHolder(itemView);
 
-
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull NoteHolder holder, int position) {
@@ -42,7 +41,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
         holder.textViewTitle.setText(currentNote.getTitle());
         holder.textViewDescription.setText(currentNote.getDescription());
         holder.textViewPriority.setText(String.valueOf(currentNote.getPriority()));
-        holder.imageViewIcon.setImageResource(R.drawable.ic_default_icon);
+        holder.imageViewIcon.setImageResource(currentNote.getIcon());
+
     }
 
     @Override
@@ -60,20 +60,25 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
         return notes.get(position);
     }
 
+
+
+
     // Holding single NoteItem
     class NoteHolder extends RecyclerView.ViewHolder {
         private TextView textViewTitle;
         private TextView textViewDescription;
         private TextView textViewPriority;
         private ImageView imageViewIcon;
+        public ImageView imageViewDoneIcon, imageViewDefaultIcon;
 
-        public NoteHolder(@NonNull View itemView) {
+
+        // itemView is the view of the note item
+        public NoteHolder(@NonNull final View itemView) {
             super(itemView);
             textViewTitle = (TextView) itemView.findViewById(R.id.text_view_title);
             textViewDescription = (TextView) itemView.findViewById(R.id.text_view_description);
             textViewPriority = (TextView) itemView.findViewById(R.id.text_view_priority);
             imageViewIcon = (ImageView) itemView.findViewById(R.id.icon_default_icon);
-
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -81,8 +86,17 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
                     int position = getAdapterPosition();
                     if (itemListener != null && position != RecyclerView.NO_POSITION) {
                         itemListener.onItemClick(notes.get(position));
-                    } else
-                        Log.d("iconClickListener", "clicked on icon");
+                    }
+                }
+            });
+
+            imageViewIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if (itemListener != null && position != RecyclerView.NO_POSITION) {
+                        itemListener.onDoneClick(position,notes.get(position));
+                    }
                 }
             });
 
@@ -94,10 +108,12 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
     // the onClick note item
     public interface onItemClickListener {
         void onItemClick(Note note);
+         void onDoneClick(int position,Note note);
     }
 
     public void setOnItemClickListener(onItemClickListener listener) {
         this.itemListener = listener;
     }
+
 
 }

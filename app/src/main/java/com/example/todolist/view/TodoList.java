@@ -11,10 +11,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,6 +27,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +42,7 @@ import java.util.List;
 
 import static com.example.todolist.MainActivity.EXTRA_NAME;
 import static com.example.todolist.view.AddEditNoteActivity.EXTRA_DESCRIPTION;
+import static com.example.todolist.view.AddEditNoteActivity.EXTRA_ICON;
 import static com.example.todolist.view.AddEditNoteActivity.EXTRA_ID;
 import static com.example.todolist.view.AddEditNoteActivity.EXTRA_NOTE;
 import static com.example.todolist.view.AddEditNoteActivity.EXTRA_PHONE;
@@ -56,6 +63,10 @@ public class TodoList extends AppCompatActivity {
     private ImageButton imageViewMainMenu;
     private Toolbar toolbar;
     private LinearLayout todoLinearLayout;
+    private Switch switchToggleColor;
+
+    private boolean mBold = false;
+    private boolean mItalic = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +75,11 @@ public class TodoList extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        switchToggleColor = findViewById(R.id.switch_toggle_color);
+        switchToggleColor.setChecked(false);
+        switchToggleColor.setTextOn("On");
+        switchToggleColor.setTextOff("Off");
 
         todoLinearLayout = findViewById(R.id.todo_linearlayout);
 
@@ -80,6 +96,8 @@ public class TodoList extends AppCompatActivity {
 
         final NoteAdapter adapter = new NoteAdapter();
         recyclerView.setAdapter(adapter);
+        //recyclerView.setBackgroundColor(Color.BLACK);
+
 
         bundle = getIntent().getExtras();
         String passedName = bundle.getString(EXTRA_NAME);
@@ -93,6 +111,7 @@ public class TodoList extends AppCompatActivity {
         // we do it for not making many view models
         // and we pass "this" activity for it to destroy the view model of the current activity
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel.class);
+
 
         noteViewModel.getAllNotes().observe(this, new Observer<List<Note>>() {
             @Override
@@ -121,6 +140,8 @@ public class TodoList extends AppCompatActivity {
 
         adapter.setOnItemClickListener(new NoteAdapter.onItemClickListener() {
 
+
+            // clicked on the note item
             @Override
             public void onItemClick(Note note) {
                 Intent intent = new Intent(TodoList.this, AddEditNoteActivity.class);
@@ -128,10 +149,20 @@ public class TodoList extends AppCompatActivity {
                 intent.putExtra(AddEditNoteActivity.EXTRA_TITLE, note.getTitle());
                 intent.putExtra(AddEditNoteActivity.EXTRA_DESCRIPTION, note.getDescription());
                 intent.putExtra(AddEditNoteActivity.EXTRA_PRIORITY, note.getPriority());
-                intent.putExtra(AddEditNoteActivity.EXTRA_PHONE,note.getPhone());
+                intent.putExtra(AddEditNoteActivity.EXTRA_PHONE, note.getPhone());
+                intent.putExtra(AddEditNoteActivity.EXTRA_ICON, note.getIcon());
                 startActivityForResult(intent, EDIT_NOTE_REQUEST);
             }
+
+            @Override
+            public void onDoneClick(int position, Note note) {
+                updateIcon(note);
+                noteViewModel.update(note);
+            }
         });
+
+
+        // adapter.setColorBack(new );
     }
 
 
@@ -146,7 +177,7 @@ public class TodoList extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String title,description,phone,noteEdit;
+        String title, description, phone, noteEdit;
         int priority;
 
         if (requestCode == ADD_NOTE_REQUEST && resultCode == RESULT_OK) {
@@ -165,7 +196,7 @@ public class TodoList extends AppCompatActivity {
                 int icon = R.drawable.ic_default_icon;
                 //          icon test               //
 
-                Note note = new Note(title, description, priority, icon,phone);
+                Note note = new Note(title, description, priority, icon, phone);
                 noteViewModel.insert(note);
                 Toast.makeText(this, "Note added", Toast.LENGTH_SHORT).show();
             }
@@ -184,9 +215,10 @@ public class TodoList extends AppCompatActivity {
             priority = extras.getInt(EXTRA_PRIORITY, 0);
             phone = extras.getString(EXTRA_PHONE);
             noteEdit = extras.getString(EXTRA_NOTE);
-            int icon = R.drawable.ic_default_icon;
+            int icon = extras.getInt(EXTRA_ICON);
 
-            Note note = new Note(title, description, priority, icon,phone);
+
+            Note note = new Note(title, description, priority, icon, phone);
             note.setId(id);
             noteViewModel.update(note);
             Toast.makeText(this, "Note Updated", Toast.LENGTH_SHORT).show();
@@ -198,7 +230,7 @@ public class TodoList extends AppCompatActivity {
     public void onClickDefaultIcon(View view) {
 
         defaultIconButton = (ImageView) findViewById(R.id.icon_default_icon);
-        doneIconButton = findViewById(R.id.icon_done);
+        doneIconButton = findViewById(R.id.icon_done_icon);
 
         if (defaultIconButton.getVisibility() == View.VISIBLE) {
             defaultIconButton.setVisibility(View.GONE);
@@ -206,7 +238,6 @@ public class TodoList extends AppCompatActivity {
         } else {
             defaultIconButton.setVisibility(View.VISIBLE);
             doneIconButton.setVisibility(View.GONE);
-
         }
 
 
@@ -221,18 +252,63 @@ public class TodoList extends AppCompatActivity {
     }
 
 
+    // change the text to italic and bold with check boxs
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.backgroundChange_0:
                 // change background
                 todoLinearLayout.setBackgroundResource(R.drawable.background_1);
-                return true;
+                break;
             case R.id.backgroundChange_1:
                 todoLinearLayout.setBackgroundResource(R.drawable.background_0);
+                break;
+            case R.id.font_change:
+                updateTitle(item);
             default:
-                return super.onOptionsItemSelected(item);
+                break;
+            //return super.onOptionsItemSelected(item);
         }
+        return super.onOptionsItemSelected(item);
 
+
+    }
+
+
+    public void updateTitle(@NonNull MenuItem item) {
+        if (item.isChecked()) {
+            item.setChecked(false);
+
+            if (mBold && mItalic) {
+                textViewHelloTitle.setTypeface(null, Typeface.BOLD_ITALIC);
+            }
+            mBold = false;
+            mItalic = false;
+        } else {
+            item.setChecked(true);
+            textViewHelloTitle.setTypeface(null, Typeface.NORMAL);
+        }
+        mBold = true;
+        mItalic = true;
+    }
+
+
+    public void switchColorToggleOnClick(View view) {
+
+        boolean switchStatus = switchToggleColor.isChecked();
+        if (switchStatus == true) {
+            floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorBackground_0)));
+        } else {
+            floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorBackground_1)));
+
+        }
+    }
+
+
+    public void updateIcon(Note note) {
+        if (note.getIcon() == R.drawable.ic_default_icon) {
+            note.changeIcon(R.drawable.ic_done_icon);
+        } else
+            note.changeIcon(R.drawable.ic_default_icon);
     }
 }

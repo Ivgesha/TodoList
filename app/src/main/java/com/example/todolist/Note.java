@@ -72,4 +72,9 @@ public class Note {
     public String getNote() {
         return note;
     }
+
+    public void changeIcon(int iconResource){
+        this.icon = iconResource;
+    }
+
 }

@@ -12,5 +12,8 @@
     <string name="enter_name">Enter name here...</string>
     <string name="dark_background">Dark background</string>
     <string name="light_background">Light backround</string>
+    <string name="font_change">Change font</string>
+    <string name="change_background">Change background</string>
+    <string name="toggle_color">Toggle color</string>
 
 </resources>

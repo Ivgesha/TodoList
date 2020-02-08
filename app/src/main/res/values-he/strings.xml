@@ -13,5 +13,8 @@
     <string name="enter_name">הכנס שם כאן...</string>
     <string name="dark_background">רקע כהה</string>
     <string name="light_background">רקע בהיר</string>
+    <string name="font_change">שנה גופן</string>
+    <string name="change_background">שנה רקע</string>
+    <string name="toggle_color">שנה צבע</string>
 
 </resources>

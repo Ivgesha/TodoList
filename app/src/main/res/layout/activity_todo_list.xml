@@ -16,14 +16,21 @@
     </include>
 
 
-
+<Switch
+    android:id="@+id/switch_toggle_color"
+    android:text="@string/toggle_color"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:checked="true"
+    android:onClick="switchColorToggleOnClick"/>
 
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:gravity="center"
-    android:paddingTop="25dp">
+    android:paddingTop="15dp">
+
 
     <TextView
         android:id="@+id/hello_title"

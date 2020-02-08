@@ -36,6 +36,8 @@ public class AddEditNoteActivity extends AppCompatActivity {
 
     public static final String EXTRA_NOTE = "com.example.todolist.view.EXTRA_NOTE";
 
+    public static final String EXTRA_ICON = "com.example.todolist.view.EXTRA_ICON";
+
     //public static final String EXTRA_BUNDLE = "com.example.todolist.view.EXTRA_BUNDLE";
 
     private EditText editTextTitle;
@@ -97,7 +99,7 @@ public class AddEditNoteActivity extends AppCompatActivity {
         returnedIntent.putExtra(EXTRA_PRIORITY, priority);            // passing int
         returnedIntent.putExtra(EXTRA_PHONE, phone);
         returnedIntent.putExtra(EXTRA_NOTE, note);
-
+        returnedIntent.putExtra(EXTRA_ICON, note);
         int id = getIntent().getIntExtra(EXTRA_ID, -1);
         if (id != -1) {
             returnedIntent.putExtra(EXTRA_ID, id);
@@ -117,7 +119,7 @@ public class AddEditNoteActivity extends AppCompatActivity {
         if (number.length() > 0) {
             if (ContextCompat.checkSelfPermission(AddEditNoteActivity.this, Manifest.permission.CALL_PHONE) !=
                     PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(AddEditNoteActivity.this,new String[] {Manifest.permission.CALL_PHONE},REQUEST_CALL);
+                ActivityCompat.requestPermissions(AddEditNoteActivity.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
             } else {// if permission granted
                 String dial = "tel:" + number;
                 startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
@@ -130,10 +132,10 @@ public class AddEditNoteActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == REQUEST_CALL){
-            if (grantResults.length > 0 && grantResults[0] ==PackageManager.PERMISSION_GRANTED){
+        if (requestCode == REQUEST_CALL) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 onClickCallBtn(null);
-            }else
+            } else
                 Toast.makeText(AddEditNoteActivity.this, "Permission DENIED", Toast.LENGTH_LONG).show();
         }
     }

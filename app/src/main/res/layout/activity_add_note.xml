@@ -67,8 +67,11 @@
         <EditText
             android:id="@+id/edit_text_priority"
             android:text="1"
+            android:layout_marginTop="8dp"
             android:textColor="#FFFFFF"
             android:textSize="20dp"
+            android:paddingLeft="8dp"
+            android:layout_marginRight="8dp"
             android:inputType="number"
             android:backgroundTint="@android:color/transparent"
             android:layout_width="50dp"

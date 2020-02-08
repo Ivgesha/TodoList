@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
-    android:layout_marginEnd="8dp">
+    android:layout_marginEnd="8dp"
+    >
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -25,15 +26,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:src="@drawable/ic_default_icon"
-            android:visibility="visible"
-            />
+            android:src="@drawable/ic_default_icon" />
 
         <ImageView
-            android:id="@+id/icon_done"
+            android:id="@+id/icon_done_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_done"
+            android:src="@drawable/ic_done_icon"
             android:layout_alignParentStart="true"
             android:visibility="gone"
             />

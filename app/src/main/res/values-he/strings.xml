@@ -16,5 +16,7 @@
     <string name="font_change">שנה גופן</string>
     <string name="change_background">שנה רקע</string>
     <string name="toggle_color">שנה צבע</string>
+    <string name="add_picture">+ הוסף תמונה</string>
+    <string name="add_mail">+ הוסף מייל</string>
 
 </resources>

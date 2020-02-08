@@ -48,6 +48,7 @@ import static com.example.todolist.view.AddEditNoteActivity.EXTRA_NOTE;
 import static com.example.todolist.view.AddEditNoteActivity.EXTRA_PHONE;
 import static com.example.todolist.view.AddEditNoteActivity.EXTRA_PRIORITY;
 import static com.example.todolist.view.AddEditNoteActivity.EXTRA_TITLE;
+import static com.example.todolist.view.AddEditNoteActivity.EXTRA_URL;
 
 public class TodoList extends AppCompatActivity {
     public static final int ADD_NOTE_REQUEST = 1;
@@ -150,6 +151,8 @@ public class TodoList extends AppCompatActivity {
                 intent.putExtra(AddEditNoteActivity.EXTRA_DESCRIPTION, note.getDescription());
                 intent.putExtra(AddEditNoteActivity.EXTRA_PRIORITY, note.getPriority());
                 intent.putExtra(AddEditNoteActivity.EXTRA_PHONE, note.getPhone());
+                intent.putExtra(AddEditNoteActivity.EXTRA_URL,note.getUrl());
+                intent.putExtra(AddEditNoteActivity.EXTRA_NOTE,note.getNote());
                 intent.putExtra(AddEditNoteActivity.EXTRA_ICON, note.getIcon());
                 startActivityForResult(intent, EDIT_NOTE_REQUEST);
             }
@@ -161,8 +164,6 @@ public class TodoList extends AppCompatActivity {
             }
         });
 
-
-        // adapter.setColorBack(new );
     }
 
 
@@ -177,7 +178,7 @@ public class TodoList extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String title, description, phone, noteEdit;
+        String title, description, phone, url,noteEdit;
         int priority;
 
         if (requestCode == ADD_NOTE_REQUEST && resultCode == RESULT_OK) {
@@ -190,13 +191,14 @@ public class TodoList extends AppCompatActivity {
                 description = extras.getString(EXTRA_DESCRIPTION);
                 priority = extras.getInt(EXTRA_PRIORITY, 1);
                 phone = extras.getString(EXTRA_PHONE);
+                url = extras.getString(EXTRA_URL);
                 noteEdit = extras.getString(EXTRA_NOTE);
 
                 //          icon test               //
                 int icon = R.drawable.ic_default_icon;
                 //          icon test               //
 
-                Note note = new Note(title, description, priority, icon, phone);
+                Note note = new Note(title, description, priority, icon, phone,url,noteEdit);
                 noteViewModel.insert(note);
                 Toast.makeText(this, "Note added", Toast.LENGTH_SHORT).show();
             }
@@ -214,32 +216,17 @@ public class TodoList extends AppCompatActivity {
             //priority = extras.getInt(EXTRA_PRIORITY, 1);
             priority = extras.getInt(EXTRA_PRIORITY, 0);
             phone = extras.getString(EXTRA_PHONE);
+            url = extras.getString(EXTRA_URL);
             noteEdit = extras.getString(EXTRA_NOTE);
             int icon = extras.getInt(EXTRA_ICON);
 
 
-            Note note = new Note(title, description, priority, icon, phone);
+            Note note = new Note(title, description, priority, icon, phone,url,noteEdit);
             note.setId(id);
             noteViewModel.update(note);
             Toast.makeText(this, "Note Updated", Toast.LENGTH_SHORT).show();
         } else
             Toast.makeText(this, "Note canceled", Toast.LENGTH_SHORT).show();
-
-    }
-
-    public void onClickDefaultIcon(View view) {
-
-        defaultIconButton = (ImageView) findViewById(R.id.icon_default_icon);
-        doneIconButton = findViewById(R.id.icon_done_icon);
-
-        if (defaultIconButton.getVisibility() == View.VISIBLE) {
-            defaultIconButton.setVisibility(View.GONE);
-            doneIconButton.setVisibility(View.VISIBLE);
-        } else {
-            defaultIconButton.setVisibility(View.VISIBLE);
-            doneIconButton.setVisibility(View.GONE);
-        }
-
 
     }
 

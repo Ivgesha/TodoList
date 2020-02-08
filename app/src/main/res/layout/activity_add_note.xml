@@ -73,6 +73,7 @@
             android:paddingLeft="8dp"
             android:layout_marginRight="8dp"
             android:inputType="number"
+            android:gravity="center"
             android:backgroundTint="@android:color/transparent"
             android:layout_width="50dp"
             android:layout_height="wrap_content"/>
@@ -83,8 +84,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginHorizontal="2dp">
+        android:layout_marginHorizontal="10dp">
 
         <EditText
             android:id="@+id/edit_text_phone"
@@ -95,19 +95,43 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColorHint="#FFFFFF"
             android:backgroundTint="#FFFFFF"
-            android:layout_marginHorizontal="10dp"
             android:textColor="#FFFFFF"
             />
 
         <ImageButton
             android:id="@+id/image_view_call_btn"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="match_parent"
             android:background="@drawable/ic_call"
             android:onClick="onClickCallBtn"
             />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/websiteLinearLayout"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp">
+
+
+    <EditText
+        android:id="@+id/editTextWebsiteUrl"
+        android:hint="enter Url"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:textColorHint="#FFFFFF"
+        android:backgroundTint="#FFFFFF"
+        android:textColor="#FFFFFF"/>
+
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_website"
+            android:onClick="gotoWebsiteBtn"/>
+
+
+    </LinearLayout>
     <ImageButton
         android:id="@+id/image_view_picture"
         android:layout_width="40dp"
@@ -116,9 +140,33 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="2dp"
-        android:visibility="visible"
+        android:visibility="gone"
+        android:onClick="onClickImageViewTakePictureBtn"
+
         />
 
+
+    <Button
+        android:id="@+id/button_add_picture"
+        android:text="@string/add_picture"
+        android:background="@null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textColor="#FFFFFF"
+        android:onClick="onClickImageViewTakePictureBtn"/>
+
+<Button
+    android:id="@+id/button_add_email"
+    android:text="@string/add_mail"
+    android:textColor="#FFFFFF"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:background="@null"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:visibility="gone"/>
 
     <EditText
         android:id="@+id/edit_text_note"

@@ -2,11 +2,13 @@ package com.example.todolist;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 
 import com.example.todolist.view.AddEditNoteActivity;
+import com.example.todolist.view.TodoList;
 
 import java.util.List;
 
@@ -66,6 +68,12 @@ public class NoteRepository {
             noteDao.insert(notes[0]);
             return null;
         }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Log.d("OnPostExecuteNote","note inserted");
+        }
     }
 
     private static class UpdateNoteAsyncTask extends AsyncTask<Note, Void, Void> {
@@ -85,6 +93,12 @@ public class NoteRepository {
             // thats why we insert the notes[0]
             noteDao.update(notes[0]);
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Log.d("OnPostExecuteNote","note updated");
         }
     }
 
@@ -106,6 +120,12 @@ public class NoteRepository {
             noteDao.delete(notes[0]);
             return null;
         }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Log.d("OnPostExecuteNote","note deleted");
+        }
     }
 
     private static class DeleteAllNotesAsyncTask extends AsyncTask<Void, Void, Void> {
@@ -120,6 +140,12 @@ public class NoteRepository {
         protected Void doInBackground(Void... voids) {
             noteDao.deleteAllNotes();
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Log.d("OnPostExecuteNote","all notes deleted");
         }
     }
 }

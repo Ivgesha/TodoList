@@ -30,7 +30,4 @@
         app:showAsAction="never" />
 
 
-    <item
-        android:title="blabla"
-        />
 </menu>

@@ -15,5 +15,7 @@
     <string name="font_change">Change font</string>
     <string name="change_background">Change background</string>
     <string name="toggle_color">Toggle color</string>
+    <string name="add_picture">+ Add picture</string>
+    <string name="add_mail">+ Add Email</string>
 
 </resources>

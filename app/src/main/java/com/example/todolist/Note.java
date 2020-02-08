@@ -22,15 +22,19 @@ public class Note {
 
     private String phone;
 
+    private String url;
+
     private String note;
 
 
-    public Note(String title, String description, int priority, int icon, String phone) {
+    public Note(String title, String description, int priority, int icon, String phone,String url,String note) {
         this.title = title;
         this.description = description;
         this.priority = priority;
         this.icon = icon;
         this.phone = phone;
+        this.url = url;
+        this.note = note;
     }
 
     public void setId(int id) {
@@ -73,8 +77,15 @@ public class Note {
         return note;
     }
 
+
+    public String getUrl(){
+        return url;
+    }
+
     public void changeIcon(int iconResource){
         this.icon = iconResource;
     }
+
+
 
 }
